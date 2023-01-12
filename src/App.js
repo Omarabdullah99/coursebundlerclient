@@ -10,6 +10,10 @@ import Courses from './component/Courses/Courses';
 import Home from './component/Home/Home';
 import Footer from './component/Layout/Footer/Footer';
 import Header from './component/Layout/Header/Header';
+import NotFound from './component/Layout/NotFound/NotFound';
+import PaymentFailed from './component/Payments/PaymentFailed';
+import PaymentSuceeess from './component/Payments/PaymentSuceeess';
+import Subscribe from './component/Payments/Subscribe';
 import Request from './component/Request/Request';
 
 function App() {
@@ -26,6 +30,10 @@ function App() {
     <Route path='/contact' element={<Contact></Contact>} />
     <Route path='/request' element={<Request></Request>} />
     <Route path='/about' element={<About></About>} />
+    <Route path='/subscribe' element={<Subscribe></Subscribe>} />
+    <Route path='*' element={<NotFound></NotFound>} />
+    <Route path='/paymentsuccess' element={<PaymentSuceeess></PaymentSuceeess>} />
+    <Route path='/paymentfailed' element={<PaymentFailed></PaymentFailed>} />
     </Routes>
 
     <Footer></Footer>
