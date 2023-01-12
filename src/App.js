@@ -15,6 +15,7 @@ import NotFound from './component/Layout/NotFound/NotFound';
 import PaymentFailed from './component/Payments/PaymentFailed';
 import PaymentSuceeess from './component/Payments/PaymentSuceeess';
 import Subscribe from './component/Payments/Subscribe';
+import Profile from './component/Profile/Profile';
 import Request from './component/Request/Request';
 
 function App() {
@@ -39,6 +40,7 @@ function App() {
     <Route path='/paymentsuccess' element={<PaymentSuceeess></PaymentSuceeess>} />
     <Route path='/paymentfailed' element={<PaymentFailed></PaymentFailed>} />
     <Route path='/course/:id' element={<CoursePage></CoursePage>} />
+    <Route path='/profile' element={<Profile></Profile>} />
     </Routes>
 
     <Footer></Footer>
