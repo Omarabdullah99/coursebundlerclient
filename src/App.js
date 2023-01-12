@@ -6,6 +6,7 @@ import Login from './component/Auth/Login';
 import Register from './component/Auth/Register';
 import ResetPassword from './component/Auth/ResetPassword';
 import Contact from './component/Contact/Contact';
+import CoursePage from './component/CoursePage/CoursePage';
 import Courses from './component/Courses/Courses';
 import Home from './component/Home/Home';
 import Footer from './component/Layout/Footer/Footer';
@@ -17,6 +18,9 @@ import Subscribe from './component/Payments/Subscribe';
 import Request from './component/Request/Request';
 
 function App() {
+  // window.addEventListener('contextmenu',e=>{
+  //   e.preventDefault()
+  // })
   return (
     <Router>
     <Header />
@@ -34,6 +38,7 @@ function App() {
     <Route path='*' element={<NotFound></NotFound>} />
     <Route path='/paymentsuccess' element={<PaymentSuceeess></PaymentSuceeess>} />
     <Route path='/paymentfailed' element={<PaymentFailed></PaymentFailed>} />
+    <Route path='/course/:id' element={<CoursePage></CoursePage>} />
     </Routes>
 
     <Footer></Footer>
