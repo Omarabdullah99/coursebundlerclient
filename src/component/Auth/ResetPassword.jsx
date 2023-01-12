@@ -19,7 +19,7 @@ const ResetPassword = () => {
     <Input
           required
            value={password}
-           onChange={e => password(e.target.value)}
+           onChange={e => setPassword(e.target.value)}
            placeholder="New Password"
            type={'password'}
            focusBorderColor="yellow.500"
