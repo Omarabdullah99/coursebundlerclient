@@ -1,5 +1,6 @@
 import React from 'react';
 import {BrowserRouter as Router, Routes,Route} from "react-router-dom"
+import About from './component/About/About';
 import ForgetPassword from './component/Auth/ForgetPassword';
 import Login from './component/Auth/Login';
 import Register from './component/Auth/Register';
@@ -24,6 +25,7 @@ function App() {
     <Route path='/resetpassword/:token' element={<ResetPassword></ResetPassword>} />
     <Route path='/contact' element={<Contact></Contact>} />
     <Route path='/request' element={<Request></Request>} />
+    <Route path='/about' element={<About></About>} />
     </Routes>
 
     <Footer></Footer>
