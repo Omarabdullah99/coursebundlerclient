@@ -1,7 +1,8 @@
-import { Avatar, Button, Container, Heading, HStack, Image, Stack, Text, VStack } from '@chakra-ui/react'
-import React from 'react'
+import { Avatar, Button, Container, Heading, HStack, Image, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalOverlay, Stack, Text, useDisclosure, VStack } from '@chakra-ui/react'
+import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import {RiDeleteBin7Fill} from 'react-icons/ri'
+import { fileUploadCss } from '../Auth/Register'
 
 const Profile = () => {
 
@@ -24,6 +25,12 @@ const Profile = () => {
             }
         ]
     }
+    const {isOpen,onClose,onOpen}=useDisclosure()
+    const changeImageSubmitHandler=(e,image)=>{
+       e.preventDefault()
+       console.log("profile image", image)
+    }
+
   return (
     <Container minH={'95vh'} maxW='container.lg' py={'8'}>
     <Heading children="Profile" m={'8'} textTransform={'uppercase'} />
@@ -36,7 +43,7 @@ const Profile = () => {
     >
     <VStack>
     <Avatar boxSize={'48'} />
-    <Button colorScheme={'yellow'} variant={'ghost'}>Change phot</Button>
+    <Button onClick={onOpen} colorScheme={'yellow'} variant={'ghost'}>Change phot</Button>
     </VStack>
 
     <VStack spacing={'4'} alignItems={['center','flex-start']}>
@@ -115,8 +122,65 @@ const Profile = () => {
             </Stack>
         )
     }
+
+    <ChangePhotoBox changeImageSubmitHandler={changeImageSubmitHandler} isOpen={isOpen} onClose={onClose} />
     </Container>
   )
 }
 
 export default Profile
+
+function ChangePhotoBox({isOpen,onClose,changeImageSubmitHandler}){
+    const [image,setImage]=useState("")
+    const [imageprev,setImagePrev]=useState("")
+
+
+    const changeImage=(e)=>{
+        const file=e.target.files[0]
+        const reader= new FileReader()
+        reader.readAsDataURL(file)
+        reader.onloadend=()=>{
+            setImagePrev(reader.result)
+            setImage(file)
+        }
+      }
+    const closeHandler=()=>{
+        onClose()
+        setImagePrev("")
+        setImage("")
+    }
+
+    return (
+        <Modal isOpen={isOpen} onClose={closeHandler} >
+        <ModalOverlay backdropFilter={'blur(10px)'} />
+        <ModalContent>
+        <ModalCloseButton />
+
+        <ModalBody>
+        <Container>
+        <form onSubmit={(e)=>changeImageSubmitHandler(e,image)}>
+        <VStack spacing={'8'}>
+       {imageprev &&  <Avatar src={imageprev} boxSize={'48'} />}
+        <Input 
+        type={'file'}
+        css={{'&::file-selector-button':fileUploadCss}}
+        onChange={changeImage}
+        />
+        <Button w={'full'} colorScheme={'yellow'} type="submit">
+        Change Photo
+        </Button>
+        </VStack>
+        </form>
+        
+        </Container>
+        
+        </ModalBody>
+
+        <ModalFooter>
+        <Button mr={'3'} onClick={closeHandler}>Cancel</Button>
+        </ModalFooter>
+        
+        </ModalContent>
+        </Modal>
+    )
+}
