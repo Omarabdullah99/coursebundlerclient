@@ -1,6 +1,10 @@
 import React from 'react';
 import {BrowserRouter as Router, Routes,Route} from "react-router-dom"
 import About from './component/About/About';
+import Admincourses from './component/Admin/Admincourses/Admincourses';
+import CreateCourse from './component/Admin/CreateCourse/CreateCourse';
+import Dashboard from './component/Admin/Dashboard/Dashboard';
+import Users from './component/Admin/Users/Users';
 import ForgetPassword from './component/Auth/ForgetPassword';
 import Login from './component/Auth/Login';
 import Register from './component/Auth/Register';
@@ -45,6 +49,11 @@ function App() {
     <Route path='/profile' element={<Profile></Profile>} />
     <Route path='/changepassword' element={<ChangePassword></ChangePassword>} />
     <Route path='/updateprofile' element={<UpdateProfile></UpdateProfile>} />
+    {/* Admin path routes */}
+    <Route path='/admin/dashboard' element={<Dashboard></Dashboard>} />
+    <Route path='/admin/createcourse' element={<CreateCourse></CreateCourse>} />
+    <Route path='/admin/courses' element={<Admincourses></Admincourses>} />
+    <Route path='/admin/users' element={<Users></Users>} />
     </Routes>
 
     <Footer></Footer>
