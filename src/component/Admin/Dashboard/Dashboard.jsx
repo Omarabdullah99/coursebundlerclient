@@ -3,6 +3,7 @@ import { Box, Grid, Heading, HStack, Progress, Stack, Text } from '@chakra-ui/re
 import cursor from '../../../assets/images/cursor.png'
 import Sidebar from '../Sidebar'
 import { RiArrowDownFill, RiArrowUpLine } from 'react-icons/ri'
+import { LineChart } from './Chart'
 
 const Databox =({title,qty,qtyPercentage,profit})=>(
   <Box
@@ -89,6 +90,9 @@ const Dashboard = () => {
     pt={['8','0']}
     ml={['0','16']}
     />
+
+    {/* line chart*/}
+   
     </Box>
 
     <Grid templateColumns={['1fr', '2fr 1fr']}>
@@ -109,7 +113,7 @@ const Dashboard = () => {
 
     <Box p={['0','16']} boxSizing='border-box' py='4'>
     <Heading textAlign={'center'} size="md" mb="4" children="Users" />
-    
+    {/* Dought graph */}
     </Box>
 
 
