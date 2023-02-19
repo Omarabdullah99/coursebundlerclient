@@ -2,15 +2,31 @@ import React from 'react';
 import { useState } from 'react';
 import { Box, Button, Container, FormLabel, Heading, Input, VStack } from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
+import axios from 'axios'
+import {useDispatch} from 'react-redux'
+import { login } from '../../redux/actions/user';
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password,setPassword]=useState('')
+  const dispatch=useDispatch()
+//   const config = {
+//     headers:{
+//         "Content-type":"application/json"
+//     },
+//     withCredentials: true
+// }
+  const handleLogin=(e)=>{
+    e.preventDefault()
+    dispatch(login(email,password))
+    // axios.post("http://localhost:4000/api/v1/login",{email,password},config).then(res=> console.log(res)).catch(err=>console.log(err))
+
+  }
   return (
     <Container h={'95vh'}>
       <VStack h={'full'} justifyContent="center" spacing={'16'}>
         <Heading children={'Welcome to CourseBundler'} />
-        <form style={{ width: '100%' }}>
+        <form onSubmit={handleLogin} style={{ width: '100%' }}>
 
          <Box my={'4'}>
          <FormLabel htmlFor="email" children="Email Address" />
