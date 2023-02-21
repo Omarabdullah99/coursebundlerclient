@@ -4,13 +4,13 @@ import { Link } from 'react-router-dom'
 import {RiDeleteBin7Fill} from 'react-icons/ri'
 import { fileUploadCss } from '../Auth/Register'
 
-const Profile = () => {
+const Profile = ({user}) => {
 
     const removeFromPlaylistHandler=(id)=>{
         console.log("profile course delete id", id)
     }
 
-    const user={
+    const users={
         name:"Omar Abdullah",
         email:'omarabdullah917303@gmail.com',
         createdAt:String(new Date().toISOString()),
@@ -42,7 +42,7 @@ const Profile = () => {
     padding='8'    
     >
     <VStack>
-    <Avatar boxSize={'48'} />
+    <Avatar boxSize={'48'} src={user.avatar.url} />
     <Button onClick={onOpen} colorScheme={'yellow'} variant={'ghost'}>Change phot</Button>
     </VStack>
 
@@ -66,7 +66,7 @@ const Profile = () => {
     <Text children="Subscription" fontWeight={'bold'} />
 
     {
-        user.subscription.status ==='active'?(
+       user.subscription && user.subscription.status ==='active'?(
           <Button color={'yellow.500'} variant={'unstyled'}>Cancel Subscription</Button>
         ):(
           <Link to='/subscribe'><Button colorScheme={'yellow'}>Subscribe</Button> </Link>
@@ -89,7 +89,7 @@ const Profile = () => {
 
     <Heading children='Playlist' size={'md'} my='8' />
     {
-        user.playllist.length > 0 && (
+        user.playlist.length >= 0 && (
             <Stack
             direction={['column','row']}
             alignItems={'center'}
@@ -97,7 +97,7 @@ const Profile = () => {
             p={'4'}
             >
 
-            {user.playllist.map((element,index)=>(
+            {user.playlist.map((element,index)=>(
                 <VStack w={'48'} m='2' key={element.course}>
                 <Image 
                 boxSize={'full'}

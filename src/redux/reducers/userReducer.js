@@ -16,6 +16,24 @@ export const userReducer=createReducer({},{
         state.error=action.payload
     },
 
+    //register
+
+    registerRequest:(state)=>{
+        state.loading=true;
+    },
+    registerSuccess:(state,action)=>{
+        state.loading=false;
+        state.isAuthenticated=true;
+        state.user=action.payload.user;
+        state.message=action.payload.message
+    },
+    registerFail:(state,action)=>{
+        state.loading=false;
+        state.isAuthenticated=false;
+        state.error=action.payload
+    },
+
+    //logout
     logoutRequest:(state)=>{
         state.loading=true;
     },
@@ -30,6 +48,8 @@ export const userReducer=createReducer({},{
         state.isAuthenticated=true;
         state.error=action.payload
     },
+
+    //myprofile or loaduser
 
     loaduserRequest:(state)=>{
         state.loading=true;
