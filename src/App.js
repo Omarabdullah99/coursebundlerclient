@@ -42,7 +42,7 @@ function App() {
   const stripePromise = loadStripe(
     'pk_test_51MaBGjCfCnJCyV0J3b7Wh9YHPGx011J4vOjU04Ee8oZsbK20aGp9LEJbcODzWoUdQsEQORVybib397SKjPsTVh6F00K9F4J82m'
   );
-  const { isAuthenticated, user, message, error,loading } = useSelector(
+  const { isAuthenticated, user, message, error, loading } = useSelector(
     state => state.user
   );
   const dispatch = useDispatch();
@@ -63,140 +63,164 @@ function App() {
 
   return (
     <Router>
-    {
-      loading ?(<Loader />):(
+      {loading ? (
+        <Loader />
+      ) : (
         <>
-        <Header isAuthenticated={isAuthenticated} user={user} />
-      <Routes>
-        <Route path="/" element={<Home></Home>} />
-        <Route path="/courses" element={<Courses></Courses>} />
-        <Route
-          path="/login"
-          element={
-            <ProtectedRoute
-              isAuthenticated={!isAuthenticated}
-              redirect="/profile"
-            >
-              <Login></Login>
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/register"
-          element={
-            <ProtectedRoute
-              isAuthenticated={!isAuthenticated}
-              redirect="/profile"
-            >
-              <Register></Register>
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/forgetpassword"
-          element={<ForgetPassword></ForgetPassword>}
-        />
-        <Route
-          path="/resetpassword/:token"
-          element={<ResetPassword></ResetPassword>}
-        />
-        <Route path="/contact" element={<Contact></Contact>} />
-        <Route path="/request" element={<Request></Request>} />
-        <Route path="/about" element={<About></About>} />
-        <Route
-          path="/subscribe"
-          element={
-            <ProtectedRoute isAuthenticated={isAuthenticated}>
-              <Subscribe></Subscribe>
-            </ProtectedRoute>
-          }
-        />
-        <Route path="*" element={<NotFound></NotFound>} />
-        <Route
-          path="/paymentsuccess"
-          element={<PaymentSuceeess></PaymentSuceeess>}
-        />
-        <Route
-          path="/paymentfailed"
-          element={<PaymentFailed></PaymentFailed>}
-        />
-        <Route path="/course/:id" element={<CoursePage></CoursePage>} />
-        <Route
-          path="/profile"
-          element={
-            <ProtectedRoute isAuthenticated={isAuthenticated}>
-              <Profile user={user}></Profile>
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/changepassword"
-          element={
-            <ProtectedRoute isAuthenticated={isAuthenticated}>
-              <ChangePassword></ChangePassword>
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/updateprofile"
-          element={
-            <ProtectedRoute isAuthenticated={isAuthenticated}>
-              <UpdateProfile user={user}></UpdateProfile>
-            </ProtectedRoute>
-          }
-        />
-        {/* Admin path routes */}
-        <Route
-          path="/admin/dashboard"
-          element={
-            <ProtectedRoute isAuthenticated={isAuthenticated} adminRoute={true}
-            isAdmin={user && user.role==="admin"}
-            >
+          <Header isAuthenticated={isAuthenticated} user={user} />
+          <Routes>
+            <Route path="/" element={<Home></Home>} />
+            <Route path="/courses" element={<Courses></Courses>} />
+            <Route
+              path="/login"
+              element={
+                <ProtectedRoute
+                  isAuthenticated={!isAuthenticated}
+                  redirect="/profile"
+                >
+                  <Login></Login>
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/register"
+              element={
+                <ProtectedRoute
+                  isAuthenticated={!isAuthenticated}
+                  redirect="/profile"
+                >
+                  <Register></Register>
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/forgetpassword"
+              element={
+                <ProtectedRoute
+                  isAuthenticated={!isAuthenticated}
+                  redirect="/profile"
+                >
+                  <ForgetPassword></ForgetPassword>
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/resetpassword/:token"
+              element={
+                <ProtectedRoute
+                  isAuthenticated={!isAuthenticated}
+                  redirect="/profile"
+                >
+                  <ResetPassword></ResetPassword>
+                </ProtectedRoute>
+              }
+            />
+            <Route path="/contact" element={<Contact></Contact>} />
+            <Route path="/request" element={<Request></Request>} />
+            <Route path="/about" element={<About></About>} />
+            <Route
+              path="/subscribe"
+              element={
+                <ProtectedRoute isAuthenticated={isAuthenticated}>
+                  <Subscribe></Subscribe>
+                </ProtectedRoute>
+              }
+            />
+            <Route path="*" element={<NotFound></NotFound>} />
+            <Route
+              path="/paymentsuccess"
+              element={<PaymentSuceeess></PaymentSuceeess>}
+            />
+            <Route
+              path="/paymentfailed"
+              element={<PaymentFailed></PaymentFailed>}
+            />
+            <Route path="/course/:id" element={<CoursePage></CoursePage>} />
+            <Route
+              path="/profile"
+              element={
+                <ProtectedRoute isAuthenticated={isAuthenticated}>
+                  <Profile user={user}></Profile>
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/changepassword"
+              element={
+                <ProtectedRoute isAuthenticated={isAuthenticated}>
+                  <ChangePassword></ChangePassword>
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/updateprofile"
+              element={
+                <ProtectedRoute isAuthenticated={isAuthenticated}>
+                  <UpdateProfile user={user}></UpdateProfile>
+                </ProtectedRoute>
+              }
+            />
+            {/* Admin path routes */}
+            <Route
+              path="/admin/dashboard"
+              element={
+                <ProtectedRoute
+                  isAuthenticated={isAuthenticated}
+                  adminRoute={true}
+                  isAdmin={user && user.role === 'admin'}
+                >
+                  <Dashboard></Dashboard>
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/admin/createcourse"
+              element={
+                <ProtectedRoute
+                  isAuthenticated={isAuthenticated}
+                  adminRoute={true}
+                  isAdmin={user && user.role === 'admin'}
+                >
+                  <CreateCourse></CreateCourse>
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/admin/courses"
+              element={
+                <ProtectedRoute
+                  isAuthenticated={isAuthenticated}
+                  adminRoute={true}
+                  isAdmin={user && user.role === 'admin'}
+                >
+                  <Admincourses></Admincourses>
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/admin/users"
+              element={
+                <ProtectedRoute
+                  isAuthenticated={isAuthenticated}
+                  adminRoute={true}
+                  isAdmin={user && user.role === 'admin'}
+                >
+                  <Users></Users>
+                </ProtectedRoute>
+              }
+            />
 
-            <Dashboard></Dashboard>
-              
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/admin/createcourse"
-          element={ <ProtectedRoute isAuthenticated={isAuthenticated} adminRoute={true}
-          isAdmin={user && user.role==="admin"}
-          >
-          <CreateCourse></CreateCourse>
-            
-          </ProtectedRoute>}
-        />
-        <Route path="/admin/courses" element={<ProtectedRoute isAuthenticated={isAuthenticated} adminRoute={true}
-        isAdmin={user && user.role==="admin"}
-        
-        >
+            <Route path="/paymenttest" element={<Paymenttest></Paymenttest>} />
+          </Routes>
 
-        <Admincourses></Admincourses>
-          
-        </ProtectedRoute> } />
-        <Route path="/admin/users" element={<ProtectedRoute isAuthenticated={isAuthenticated} adminRoute={true}
-        isAdmin={user && user.role==="admin"}
-        >
-        <Users></Users>
-          
-        </ProtectedRoute> } />
+          <Elements stripe={stripePromise}>
+            <Paymenttest />
+          </Elements>
 
-        <Route path="/paymenttest" element={<Paymenttest></Paymenttest>} />
-      </Routes>
-
-      <Elements stripe={stripePromise}>
-        <Paymenttest />
-      </Elements>
-
-      <Footer></Footer>
-      <Toaster />
-        
+          <Footer></Footer>
+          <Toaster />
         </>
-
-      )
-    }
-      
+      )}
     </Router>
   );
 }

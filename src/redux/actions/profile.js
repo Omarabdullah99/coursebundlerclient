@@ -60,3 +60,53 @@ export const updateProfilePicture=(formdata)=>async dispatch=>{
         
     }
 }
+
+
+export const forgetPassword=(email)=>async dispatch=>{
+    try {
+        dispatch({type:"forgetPasswordRequest"})
+        const config={
+            headers:{
+                'Content-type':"application/json"
+            },
+            withCredentials:true
+        }
+        const {data}=await axios.post('http://localhost:4000/api/v1/forgetpassword',{
+            email
+        },
+        config
+        )
+        dispatch({type:"forgetPasswordSuccess",payload:data.message})
+    } catch (error) {
+        dispatch({
+            type:"forgetPasswordFail",
+            payload:error.response.data.message
+        })
+        
+    }
+}
+
+
+export const resetPassword=(token,password)=>async dispatch=>{
+    try {
+        dispatch({type:"resetPasswordRequest"})
+        const config={
+            headers:{
+                'Content-type':"application/json"
+            },
+            withCredentials:true
+        }
+        const {data}=await axios.put(`http://localhost:4000/api/v1/resetpassword/${token}`,{
+            password
+        },
+        config
+        )
+        dispatch({type:"resetPasswordSuccess",payload:data.message})
+    } catch (error) {
+        dispatch({
+            type:" resetPasswordFail",
+            payload:error.response.data.message
+        })
+        
+    }
+}
