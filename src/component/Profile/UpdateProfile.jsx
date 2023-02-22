@@ -2,14 +2,28 @@
 import React from 'react'
 import { useState } from 'react'
 import { Button, Container, Heading, Input, VStack } from '@chakra-ui/react'
+import { useDispatch, useSelector } from 'react-redux'
+import { updateProfile } from '../../redux/actions/profile'
+import { loaduser } from '../../redux/actions/user'
+import { useNavigate } from 'react-router-dom'
 
 
-const UpdateProfile = () => {
-    const [name,setName]=useState("")
-    const [email,setEmail]=useState("")
+const UpdateProfile = ({user}) => {
+    const [name,setName]=useState(user.name)
+    const [email,setEmail]=useState(user.email)
+    const navigate=useNavigate()
+    const dispatch=useDispatch()
+
+    const updateprofile=async (e)=>{
+      e.preventDefault()
+     await dispatch(updateProfile(name,email))
+     dispatch(loaduser())
+     navigate('/profile')
+    }
+    const {loading}=useSelector(state=>state.profile)
   return (
     <Container py='16' minH={'90vh'}>
-    <form>
+    <form onSubmit={updateprofile}>
     <Heading 
     children="Update Profile" 
     textTransform={'uppercase'}  
@@ -36,7 +50,7 @@ const UpdateProfile = () => {
     focusBorderColor='yellow.500'
     />
 
-    <Button w="full" colorScheme={'yellow'} type="submit"> Update Profile</Button>
+    <Button isLoading={loading} w="full" colorScheme={'yellow'} type="submit"> Update Profile</Button>
     </VStack>
     </form>
     </Container>

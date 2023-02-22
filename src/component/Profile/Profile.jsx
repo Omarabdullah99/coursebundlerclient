@@ -1,8 +1,12 @@
 import { Avatar, Button, Container, Heading, HStack, Image, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalOverlay, Stack, Text, useDisclosure, VStack } from '@chakra-ui/react'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import {RiDeleteBin7Fill} from 'react-icons/ri'
 import { fileUploadCss } from '../Auth/Register'
+import { useDispatch, useSelector } from 'react-redux'
+import { updateProfilePicture } from '../../redux/actions/profile'
+import { loaduser } from '../../redux/actions/user'
+import { toast } from 'react-hot-toast'
 
 const Profile = ({user}) => {
 
@@ -26,10 +30,33 @@ const Profile = ({user}) => {
         ]
     }
     const {isOpen,onClose,onOpen}=useDisclosure()
-    const changeImageSubmitHandler=(e,image)=>{
+    const dispatch=useDispatch()
+
+    const {loading,message,error}=useSelector(state => state.profile)
+
+
+    const changeImageSubmitHandler=async (e,image)=>{
        e.preventDefault()
-       console.log("profile image", image)
+       const myform= new FormData()
+       myform.append("file",image)
+      await dispatch(updateProfilePicture(myform))
+      dispatch(loaduser())
+       
     }
+
+    useEffect(() => {
+        if(error){
+          toast.error(error)
+          dispatch({type:"clearError"})
+          
+        }
+        if(message){
+          toast.success(message)
+          dispatch({type:"clearMessage"})
+          
+        }
+       
+      }, [dispatch,error,message])
 
   return (
     <Container minH={'95vh'} maxW='container.lg' py={'8'}>
@@ -43,7 +70,7 @@ const Profile = ({user}) => {
     >
     <VStack>
     <Avatar boxSize={'48'} src={user.avatar.url} />
-    <Button onClick={onOpen} colorScheme={'yellow'} variant={'ghost'}>Change phot</Button>
+    <Button isLoading={loading} onClick={onOpen} colorScheme={'yellow'} variant={'ghost'}>Change photo</Button>
     </VStack>
 
     <VStack spacing={'4'} alignItems={['center','flex-start']}>
