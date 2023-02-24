@@ -1,12 +1,15 @@
 import { Button, Container, Heading, HStack, Image, Input, Stack, Text, VStack } from '@chakra-ui/react';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import {useDispatch, useSelector} from 'react-redux'
+import { getAllcourses } from '../../redux/actions/course';
+import toast from 'react-hot-toast'
 
 const Course=({views,title,imageSrc,id, addToPlaylistHandler,creator, description, lectureCount})=>{
     return(
         <VStack className='course' alignItems={['center','flex-start']}>
-        <Image src={'https://img.freepik.com/free-vector/cute-astronaut-dance-cartoon-vector-icon-illustration-technology-science-icon-concept-isolated-premium-vector-flat-cartoon-style_138676-3851.jpg?w=2000'} boxSize='60' objectFit={'contain'} />
+        <Image src={imageSrc} boxSize='60' objectFit={'contain'} />
         <Heading textAlign={['center','left']} 
         maxW='200px'
         size={'sm'}
@@ -66,6 +69,17 @@ const Course=({views,title,imageSrc,id, addToPlaylistHandler,creator, descriptio
 const Courses = () => {
   const [keyword, setKeyword] = useState('');
   const [categoy, setCategory] = useState('');
+  const dispatch=useDispatch()
+  const {loading,courses,error}=useSelector(state=>state.courses)
+
+  useEffect(() => {
+    dispatch(getAllcourses(categoy,keyword))
+    if(error){
+      toast.error(error)
+      dispatch({type:'clearError'})
+    }
+  }, [dispatch,categoy,keyword])
+  
 
   const addToPlaylistHandler=()=>{
     console.log("add to playlist")
@@ -108,18 +122,23 @@ const Courses = () => {
        justifyContent={['flex-start', 'space-evenly']}
        alignItems={['center','flex-start']}
        >
-       <Course
-       title={"Sampel"}
-       description={'sample'}
-       views={23}
-       imageSrc={'sample'}
-       id={'sampel'}
-       creator={'sample boy'}
-       lectureCount={2}
+       {
+        courses && courses.map((item)=>(
+          <Course
+          key={item._id}
+       title={item.title}
+       description={item.description}
+       views={item.views}
+       imageSrc={item.poster.url}
+       id={item._id}
+       creator={item.createdBy}
+       lectureCount={item.numOfVideos}
        addToPlaylistHandler={addToPlaylistHandler}
 
        
        />
+        ))
+       }
       
       </Stack>
 
