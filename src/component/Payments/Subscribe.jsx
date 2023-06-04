@@ -1,5 +1,6 @@
 import { Box, Button, Container, Heading, Text, VStack } from '@chakra-ui/react'
 import React from 'react'
+import { Link } from 'react-router-dom'
 
 const Subscribe = () => {
   return (
@@ -23,7 +24,7 @@ const Subscribe = () => {
    />
    <Heading size='md' children={'299 only'} />
    </VStack>
-   <Button mt={'8'} width="full" colorScheme={'yellow'}>Buy Now</Button>
+   <Link to="/checkout"><Button  mt={'8'} width="full" colorScheme={'yellow'}>Buy Now</Button></Link>
   </Box>
 
   <Box bg={'blackAlpha.600'} p="4" css={{borderRadius:'0 0 8px 8px'}} >

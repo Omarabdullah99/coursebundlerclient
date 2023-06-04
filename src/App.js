@@ -33,6 +33,7 @@ import { useEffect } from 'react';
 import { loaduser } from './redux/actions/user';
 import { ProtectedRoute } from 'protected-route-react';
 import Loader from './component/Layout/Loader/Loader';
+import CheckOut from './component/Payments/CheckOut';
 
 function App() {
   // window.addEventListener('contextmenu',e=>{
@@ -128,13 +129,14 @@ function App() {
             />
             <Route path="*" element={<NotFound></NotFound>} />
             <Route
-              path="/paymentsuccess"
+              path="/paymentsuccess/:id"
               element={<PaymentSuceeess></PaymentSuceeess>}
             />
             <Route
               path="/paymentfailed"
               element={<PaymentFailed></PaymentFailed>}
             />
+            <Route path='/checkout' element={<CheckOut />}/>
             <Route path="/course/:id" element={<CoursePage></CoursePage>} />
             <Route
               path="/profile"
@@ -213,9 +215,7 @@ function App() {
             <Route path="/paymenttest" element={<Paymenttest></Paymenttest>} />
           </Routes>
 
-          <Elements stripe={stripePromise}>
-            <Paymenttest />
-          </Elements>
+        
 
           <Footer></Footer>
           <Toaster />

@@ -110,3 +110,52 @@ export const resetPassword=(token,password)=>async dispatch=>{
         
     }
 }
+
+export const addToPlayList=(id)=>async dispatch=>{
+    try {
+        
+        dispatch({type:"addToPlaylistRequest"})
+        const config={
+            headers:{
+                'Content-type':"application/json"
+            },
+            withCredentials:true
+        }
+        const {data}=await axios.post('http://localhost:4000/api/v1/addtoplaylist',{
+            id
+        },
+            config
+
+        )
+        
+        dispatch({type:"addToPlaylistSuccess",payload:data.message})
+    } catch (error) {
+        dispatch({
+            type:"addToPlaylistFail",
+            payload:error.response.data.message
+        })
+        
+    }
+}
+
+
+export const removeFromPlayList=(id)=>async dispatch=>{
+    try {
+        
+        dispatch({type:"removeFromlistRequest"})
+        const config={
+            withCredentials:true
+        }
+        const {data}=await axios.delete(`http://localhost:4000/api/v1/removefromplaylist?id=${id}`,{
+            config
+
+        })
+        dispatch({type:"removeFromlistFail",payload:data.message})
+    } catch (error) {
+        dispatch({
+            type:"removeFromlistFail",
+            payload:error.response.data.message
+        })
+        
+    }
+}

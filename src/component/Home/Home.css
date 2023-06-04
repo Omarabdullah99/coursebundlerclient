@@ -17,7 +17,6 @@
     color: white;
     font-size: 3rem;
     transition: color 0.5s;
-
 }
 .brandsBanner >svg:hover{
     color: rgb(255, 221, 0);

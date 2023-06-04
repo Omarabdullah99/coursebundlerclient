@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { updateProfilePicture } from '../../redux/actions/profile'
 import { loaduser } from '../../redux/actions/user'
 import { toast } from 'react-hot-toast'
+import { cancelSubscription } from '../../redux/actions/paymentcancel'
 
 const Profile = ({user}) => {
 
@@ -34,6 +35,8 @@ const Profile = ({user}) => {
 
     const {loading,message,error}=useSelector(state => state.profile)
 
+    const {loading:paymentloading,message:paymentmessage,error:paymenterror}=useSelector(state => state.payment)
+
 
     const changeImageSubmitHandler=async (e,image)=>{
        e.preventDefault()
@@ -44,7 +47,17 @@ const Profile = ({user}) => {
        
     }
 
+    const canclesubscription=()=>{
+      console.log('click cancle')
+      
+      dispatch(cancelSubscription())
+      
+
+    }
+
     useEffect(() => {
+
+    
         if(error){
           toast.error(error)
           dispatch({type:"clearError"})
@@ -55,8 +68,20 @@ const Profile = ({user}) => {
           dispatch({type:"clearMessage"})
           
         }
+
+        if(paymenterror){
+          toast.error(paymenterror)
+          dispatch({type:"clearError"})
+          
+        }
+        if(paymentmessage){
+          toast.success(paymentmessage)
+          dispatch({type:"clearMessage"})
+          dispatch(loaduser())
+          
+        }
        
-      }, [dispatch,error,message])
+      }, [dispatch,error,message,paymenterror,paymentmessage])
 
   return (
     <Container minH={'95vh'} maxW='container.lg' py={'8'}>
@@ -94,7 +119,7 @@ const Profile = ({user}) => {
 
     {
        user.subscription && user.subscription.status ==='active'?(
-          <Button color={'yellow.500'} variant={'unstyled'}>Cancel Subscription</Button>
+          <Button isLoading={paymentloading} onClick={canclesubscription}  color={'yellow.500'} variant={'unstyled'}>Cancel Subscription</Button>
         ):(
           <Link to='/subscribe'><Button colorScheme={'yellow'}>Subscribe</Button> </Link>
         )

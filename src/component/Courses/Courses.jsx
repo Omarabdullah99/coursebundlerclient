@@ -5,6 +5,8 @@ import { Link } from 'react-router-dom';
 import {useDispatch, useSelector} from 'react-redux'
 import { getAllcourses } from '../../redux/actions/course';
 import toast from 'react-hot-toast'
+import { addToPlayList } from '../../redux/actions/profile';
+import {loaduser} from '../../redux/actions/user'
 
 const Course=({views,title,imageSrc,id, addToPlaylistHandler,creator, description, lectureCount})=>{
     return(
@@ -70,7 +72,7 @@ const Courses = () => {
   const [keyword, setKeyword] = useState('');
   const [categoy, setCategory] = useState('');
   const dispatch=useDispatch()
-  const {loading,courses,error}=useSelector(state=>state.courses)
+  const {loading,courses,error,message}=useSelector(state=>state.courses)
 
   useEffect(() => {
     dispatch(getAllcourses(categoy,keyword))
@@ -78,11 +80,17 @@ const Courses = () => {
       toast.error(error)
       dispatch({type:'clearError'})
     }
-  }, [dispatch,categoy,keyword])
+    if(message){
+      toast.success(message)
+      dispatch({type:'clearMessage'})
+    }
+  }, [dispatch,categoy,keyword,error,message])
   
 
-  const addToPlaylistHandler=()=>{
-    console.log("add to playlist")
+  const addToPlaylistHandler=async (courseId)=>{
+  
+   await dispatch(addToPlayList(courseId))
+   dispatch(loaduser())
 
   }
   const categories = [
@@ -122,7 +130,7 @@ const Courses = () => {
        justifyContent={['flex-start', 'space-evenly']}
        alignItems={['center','flex-start']}
        >
-       {
+       {courses.length>0 ?
         courses && courses.map((item)=>(
           <Course
           key={item._id}
@@ -137,7 +145,7 @@ const Courses = () => {
 
        
        />
-        ))
+        )):<Heading children="courses not found" />
        }
       
       </Stack>

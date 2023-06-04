@@ -65,6 +65,20 @@ export const userReducer=createReducer({},{
         state.isAuthenticated=false;
         state.error=action.payload
     },
+
+    
+    removeFromlistRequest:(state,action)=>{
+        state.loading=true
+
+    },
+    removeFromlistSuccess:(state,action)=>{
+        state.loading=false;
+        state.message=action.payload;
+    },
+    removeFromlistFail:(state,action)=>{
+        state.loading=false;
+        state.error=action.payload
+    },
     clearError:state=>{
         state.error=null;
     },
